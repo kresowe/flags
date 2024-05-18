@@ -1,13 +1,17 @@
 import requests
 from bs4 import BeautifulSoup, element
+import cairosvg
+from PIL import Image
 import os
 
 
 class DatasetCreator:
-    def __init__(self, page_url: str, img_url_start: str) -> None:
+    def __init__(self, page_url: str, img_url_start: str, path_data: str) -> None:
         self._page_url = page_url
         self._img_url_start = img_url_start
+        self._path_data = path_data
         self._page_content = ''
+        self._countries_numbers = []
 
     def download_dataset(self) -> None:
         if not self._get_page_content():
@@ -16,7 +20,7 @@ class DatasetCreator:
         elements = soup.find_all(class_='mw-file-description')
 
         counter = 0
-        with open(os.path.join('data', 'countries.txt'), 'w') as txt_file_handler:
+        with open(os.path.join(self._path_data, 'countries.txt'), 'w') as txt_file_handler:
             print('Downloading data...')
             for elem in elements:
                 country_name = elem['title']
@@ -47,8 +51,7 @@ class DatasetCreator:
         img_url = self._img_url_start + img_name
         return img_url
 
-    @staticmethod
-    def _download_image(img_url: str, counter: int, country_name: str) -> None:
+    def _download_image(self, img_url: str, counter: int, country_name: str) -> None:
         response = requests.get(img_url)
 
         if not response.ok:
@@ -56,5 +59,27 @@ class DatasetCreator:
             return
 
         img_data = response.content
-        with open(os.path.join('data', f'{counter}.svg'), 'wb') as img_file_handler:
+        with open(os.path.join(self._path_data, f'{counter}.svg'), 'wb') as img_file_handler:
             img_file_handler.write(img_data)
+            self._countries_numbers.append(counter)
+
+    def preprocess_initial_images(self):
+        self._convert_images_to_png()
+        self._resize_images()
+
+    def _convert_images_to_png(self):
+        print("Converting images to PNG...")
+        for country_number in self._countries_numbers:
+            img_path_in = os.path.join(self._path_data, f'{country_number}.svg')
+            img_path_png = os.path.join(self._path_data, f'{country_number}.png')
+            cairosvg.svg2png(url=img_path_in, write_to=img_path_png)
+
+    def _resize_images(self):
+        print("Resizing images...")
+        for country_number in self._countries_numbers:
+            img_path_in = os.path.join(self._path_data, f'{country_number}.png')
+            img_path_resized = os.path.join(self._path_data, f'{country_number}_res.png')
+            with Image.open(img_path_in) as img:
+                resized_img = img.resize((32, 20))
+                resized_img.save(img_path_resized)
+
