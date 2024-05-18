@@ -8,3 +8,4 @@ if __name__ == '__main__':
     set_creator = DatasetCreator(page_url=PAGE_URL, img_url_start=IMG_URL_START, path_data=PATH_DATA)
     set_creator.download_dataset()
     set_creator.preprocess_initial_images()
+    set_creator.create_new_samples()

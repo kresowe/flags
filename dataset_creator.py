@@ -1,7 +1,8 @@
+import numpy as np
 import requests
 from bs4 import BeautifulSoup, element
 import cairosvg
-from PIL import Image
+from PIL import Image, ImageEnhance
 import os
 
 
@@ -63,23 +64,56 @@ class DatasetCreator:
             img_file_handler.write(img_data)
             self._countries_numbers.append(counter)
 
-    def preprocess_initial_images(self):
+    def preprocess_initial_images(self) -> None:
         self._convert_images_to_png()
         self._resize_images()
 
-    def _convert_images_to_png(self):
+    def _convert_images_to_png(self) -> None:
         print("Converting images to PNG...")
         for country_number in self._countries_numbers:
             img_path_in = os.path.join(self._path_data, f'{country_number}.svg')
             img_path_png = os.path.join(self._path_data, f'{country_number}.png')
             cairosvg.svg2png(url=img_path_in, write_to=img_path_png)
 
-    def _resize_images(self):
+    def _resize_images(self) -> None:
         print("Resizing images...")
         for country_number in self._countries_numbers:
             img_path_in = os.path.join(self._path_data, f'{country_number}.png')
-            img_path_resized = os.path.join(self._path_data, f'{country_number}_res.png')
+            img_path_resized = os.path.join(self._path_data, f'{country_number}_0.png')
             with Image.open(img_path_in) as img:
                 resized_img = img.resize((32, 20))
                 resized_img.save(img_path_resized)
+
+    def create_new_samples(self) -> None:
+        print("Creating new samples...")
+        # for country_number in range(206):
+        for country_number in self._countries_numbers:
+            img_path_in = os.path.join(self._path_data, f'{country_number}_0.png')
+            counter = 1
+            counter = self._create_by_modified_brightness(img_path_in, country_number, counter)
+            counter = self._create_by_modified_brightness(img_path_in, country_number, counter)
+
+    def _create_by_modified_brightness(self, img_path_in: str, country_number: int, counter: int) -> int:
+        for factor in np.arange(0.8, 1.2, 0.02):
+            img_path_out = os.path.join(self._path_data, f'{country_number}_{counter}.png')
+            with Image.open(img_path_in) as img:
+                enhancer = ImageEnhance.Brightness(img)
+                enhanced_img = enhancer.enhance(factor)
+                enhanced_img.save(img_path_out)
+            counter += 1
+        return counter
+
+    def _create_by_modified_contrast(self, img_path_in: str, country_number: int, counter: int) -> int:
+        for factor in np.arange(0.8, 1.2, 0.02):
+            img_path_out = os.path.join(self._path_data, f'{country_number}_{counter}.png')
+            with Image.open(img_path_in) as img:
+                enhancer = ImageEnhance.Contrast(img)
+                enhanced_img = enhancer.enhance(factor)
+                enhanced_img.save(img_path_out)
+            counter += 1
+        return counter
+
+
+
+
 
