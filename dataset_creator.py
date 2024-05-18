@@ -52,7 +52,7 @@ class DatasetCreator:
         response = requests.get(img_url)
 
         if not response.ok:
-            print(f'Failed to connect to image {counter} ({country_name}')
+            print(f'Failed to connect to image {counter} ({country_name})')
             return
 
         img_data = response.content
