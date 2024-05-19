@@ -16,9 +16,9 @@ The images are saved in the directory `data`. The names of the countries are sav
 
 #### Preprocessing data
 
-1. The downloaded images are in SVG form. 
-2. Then, they are converted into PNGs using `cairosvg` library.
-3. Next, each image is resized to smaller size, i.e., 32x20 pixels using `Pillow` library.
+1. The downloaded images are in SVG form. Then, they are converted into PNGs using `cairosvg` library.
+2. Next, each image is resized to smaller size, i.e., 32x20 pixels using `Pillow` library.
+3. It turns out that some of the flags have 4 channels (RGBA) instead of 3 (RGB) as the majority. Therefore, those RGBA are converted to RGB using `Pillow` library. 
 
 #### Producing new data samples
 
