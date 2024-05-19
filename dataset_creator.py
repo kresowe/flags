@@ -18,6 +18,8 @@ class DatasetCreator:
         self._countries_numbers = list(range(206))
         self._width = width
         self._height = height
+        self._X = []
+        self._y = []
 
     def download_dataset(self) -> None:
         if not self._get_page_content():
@@ -140,7 +142,7 @@ class DatasetCreator:
             counter += 1
         return counter
 
-    def create_np_dataset_from_selected_pixels(self) -> tuple[NDArray, NDArray]:
+    def create_np_dataset_from_selected_pixels(self) -> None:
         print('Creating np dataset from selected pixels...')
         pixels_positions = self._get_pixels_positions()
         img_samples = tuple()
@@ -157,9 +159,8 @@ class DatasetCreator:
                 print(f'Missing file {file_name}.')
             except Exception as e:
                 print(f'Unexpected error: {e}')
-        X = np.stack(img_samples, axis=0)
-        y = np.array(y)
-        return X, y
+        self._X = np.stack(img_samples, axis=0)
+        self._y = np.array(y)
 
     def _get_pixels_positions(self) -> tuple:
         width_limits = self._width * np.array([1 / 3, 1 / 2, 2 / 3])
@@ -208,4 +209,12 @@ class DatasetCreator:
                 print(f'Missing file {img_path_in}')
             except Exception as e:
                 print(f'Unexpected error: {e}')
+
+    def save_compressed_dataset(self):
+        print("Saving compressed dataset...")
+        try:
+            np.savez_compressed(os.path.join(self._path_data, 'np_from_selected_compressed.npz'),
+                                X=self._X, y=self._y)
+        except Exception as e:
+            print(f'Unexpected error: {e}')
 

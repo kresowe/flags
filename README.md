@@ -4,6 +4,15 @@
 
 The goal of this project is to create a machine learning model that can recognize the flags of the countries.
 
+## How to run
+In order to create dataset run the following command in terminal:
+
+```commandline
+python3 get_dataset.py 
+```
+
+Note that this will download the pictures from  https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags and then generate new files. 
+
 ## Steps of the solution
 
 ### Creating dataset
