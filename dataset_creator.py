@@ -212,9 +212,11 @@ class DatasetCreator:
 
     def save_compressed_dataset(self):
         print("Saving compressed dataset...")
+        file_name = 'np_from_selected_compressed.npz'
         try:
-            np.savez_compressed(os.path.join(self._path_data, 'np_from_selected_compressed.npz'),
+            np.savez_compressed(os.path.join(self._path_data, file_name),
                                 X=self._X, y=self._y)
+            print(f"Dataset saved to {file_name}.")
         except Exception as e:
             print(f'Unexpected error: {e}')
 
