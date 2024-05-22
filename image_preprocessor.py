@@ -55,7 +55,7 @@ def create_data_sample_as_single(img_path_in, pixels_positions):
     return img_sample.reshape(1, -1)
 
 
-def get_pixels_positions(width, height) -> tuple:
+def get_pixels_positions(width, height) -> tuple[tuple, list, list]:
     width_limits = width * np.array([1 / 3, 1 / 2, 2 / 3])
     height_limits = height * np.array([1 / 3, 1 / 2, 2 / 3])
     widths = [math.floor((0 + width_limits[0]) / 2),
@@ -78,7 +78,7 @@ def get_pixels_positions(width, height) -> tuple:
                         [heights[2], widths[1]],
                         [heights[2], widths[2]],
                         )
-    return pixels_positions
+    return pixels_positions, width_limits, height_limits
 
 
 def is_svg_file(file_path):

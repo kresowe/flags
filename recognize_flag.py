@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     print("Preparing environment...")
     clf = pickle.load(open(os.path.join('models', 'clf.pkl'), 'rb'))
-    pixels_positions = get_pixels_positions(width=WIDTH, height=HEIGHT)
+    pixels_positions, _, _ = get_pixels_positions(width=WIDTH, height=HEIGHT)
     countries = load_countries(os.path.join('data', 'countries.txt'))
     remove_file_if_exists(file_path)
 

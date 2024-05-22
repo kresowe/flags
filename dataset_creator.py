@@ -147,7 +147,7 @@ class DatasetCreator:
 
     def create_np_dataset_from_selected_pixels(self) -> None:
         print('Creating np dataset from selected pixels...')
-        pixels_positions = get_pixels_positions(width=self._width, height=self._height)
+        pixels_positions, _, _ = get_pixels_positions(width=self._width, height=self._height)
         img_samples = tuple()
         y = []
         for file_name in self._get_file_list():
