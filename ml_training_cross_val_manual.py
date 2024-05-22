@@ -1,5 +1,3 @@
-import numpy as np
-from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.linear_model import LogisticRegression
 import os
 from ml_operations import (load_data_from_npz, nested_cross_validation, process_inner_cross_validation_results,

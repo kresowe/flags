@@ -19,6 +19,12 @@ def load_data_from_npz(file_path: Union[str, os.PathLike]) -> tuple[NDArray, NDA
 
 def nested_cross_validation(X: NDArray, y: NDArray, clf: LogisticRegression, param_grid: dict,
                             n_inner_splits: int, n_outer_splits: int) -> tuple[list, list, list]:
+    """Makes nested cross validation on dataset X with labels y using classifier clf.
+    Parameters of clf given in param_grid are compared using grid search method.
+    Returns
+    inner_scores - detailed results from inner loop,
+    outer_scores - scores of the best classifier in each iteration of outer loop
+    best_params_list - best set of grid parameters in each iteration of outer loop """
     inner_cv = StratifiedKFold(n_splits=n_inner_splits, shuffle=True, random_state=0)
     outer_cv = StratifiedKFold(n_splits=n_outer_splits, shuffle=True, random_state=0)
 
@@ -42,6 +48,12 @@ def nested_cross_validation(X: NDArray, y: NDArray, clf: LogisticRegression, par
 
 
 def process_inner_cross_validation_results(inner_scores: list) -> tuple[list, NDArray, NDArray]:
+    """Extracts important information from detailed outputs from inner loop of cross validation.
+    inner_scores should be first value returned by nested_cross_validation.
+    Returns
+    params_list - list of combinations of parameters checked in grid search,
+    params_scores - mean score for each position from params list
+    fit_times - mean times of fitting for each position from params list"""
     params_scores = []
     fit_times = []
     params_list = []
@@ -56,18 +68,23 @@ def process_inner_cross_validation_results(inner_scores: list) -> tuple[list, ND
 
     params_scores = np.array(params_scores)
     fit_times = np.array(fit_times)
+    params_scores = params_scores.mean(axis=0)
+    fit_times = fit_times.mean(axis=0)
     return params_list, params_scores, fit_times
 
 
 def print_inner_cross_validation_results(params_list: list, params_scores: NDArray, fit_times: NDArray) -> None:
+    """Prints the results of inner loop of cross validation. Mean scores and fit times correspond to positions in
+    params_list"""
     print("Param scores - inner:")
     print(params_list)
     np.set_printoptions(precision=3)
-    print("Mean score:", params_scores.mean(axis=0))
-    print("Fit times:", fit_times.mean(axis=0))
+    print("Mean score:", params_scores)
+    print("Fit times:", fit_times)
 
 
 def print_outer_cross_validation_results(best_params_list: list, outer_scores: list):
+    """Prints the results of outer loop of cross validation."""
     outer_scores = np.array(outer_scores)
 
     print('Best results on test sample:')
@@ -80,6 +97,8 @@ def print_outer_cross_validation_results(best_params_list: list, outer_scores: l
 
 
 def simple_cross_validation(X: NDArray, y: NDArray, clf: LogisticRegression, n_splits: int) -> NDArray:
+    """Makes simple (non-nested) cross validation to estimate the performance of clf.
+    It works on dataset X with labels y using classifier clf. """
     cv_fold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=0)
     scores = []
 
@@ -91,10 +110,12 @@ def simple_cross_validation(X: NDArray, y: NDArray, clf: LogisticRegression, n_s
 
 
 def print_simple_cross_validation_score(scores: NDArray) -> None:
+    """Prints mean accuracy and its standard deviation obtained in simple_cross_validation."""
     print(f'Accuracy from cross-validation: {scores.mean():.3f} +- {scores.std():.3f}')
 
 
 def save_trained_model(clf: LogisticRegression, file_path: Union[str, os.PathLike]) -> None:
+    """Serializes classifier clf in file file_path so that it can be later loaded and used without fitting model again."""
     print("Saving the trained classifier...")
     try:
         pickle.dump(clf, open(file_path, 'wb'), protocol=4)
