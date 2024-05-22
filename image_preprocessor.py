@@ -1,11 +1,14 @@
 import numpy as np
+from numpy.typing import NDArray
 import cairosvg
 from PIL import Image, ImageEnhance
 from matplotlib.image import imread
 import math
 
 
-def convert_to_png(img_path_in, img_path_out):
+def convert_to_png(img_path_in: str, img_path_out: str) -> None:
+    """Converts image at img_path_in from SVG to PNG and saves it at img_path_out if it is SVG.
+     If it is already converted to PNG it just saves it as img_path_out."""
     try:
         if is_svg_file(img_path_in):
             cairosvg.svg2png(url=img_path_in, write_to=img_path_out)
@@ -18,7 +21,8 @@ def convert_to_png(img_path_in, img_path_out):
         print(f'Unexpected error: {e}')
 
 
-def resize(img_path_in, img_path_out, width, height):
+def resize(img_path_in: str, img_path_out: str, width: int, height: int) -> None:
+    """Resizes image img_path_in to (width, height) dimensions (numbers of pixels) and saves it as img_path_out."""
     try:
         with Image.open(img_path_in) as img:
             resized_img = img.resize((width, height))
@@ -29,7 +33,9 @@ def resize(img_path_in, img_path_out, width, height):
         print(f'Unexpected error: {e}')
 
 
-def convert_to_rgb(img_path_in, img_path_out):
+def convert_to_rgb(img_path_in: str, img_path_out: str) -> None:
+    """Converts image img_path_in to RGB if it is RGBA and saves it as img_path_out.
+    If image already is RGB, it does nothing."""
     try:
         if not is_rgba(img_path_in):
             return
@@ -42,7 +48,8 @@ def convert_to_rgb(img_path_in, img_path_out):
         print(f'Unexpected error: {e}')
 
 
-def change_brightness(img_path_in, img_path_out, factor):
+def change_brightness(img_path_in: str, img_path_out: str, factor: float) -> None:
+    """Changes brightness of image img_path_in by factor and saves it as img_path_out."""
     try:
         with Image.open(img_path_in) as img:
             enhancer = ImageEnhance.Brightness(img)
@@ -54,7 +61,8 @@ def change_brightness(img_path_in, img_path_out, factor):
         print(f'Unexpected error: {e}')
 
 
-def change_contrast(img_path_in, img_path_out, factor):
+def change_contrast(img_path_in: str, img_path_out: str, factor: float) -> None:
+    """Changes contrast of image img_path_in by factor and saves it as img_path_out."""
     try:
         with Image.open(img_path_in) as img:
             enhancer = ImageEnhance.Contrast(img)
@@ -66,7 +74,9 @@ def change_contrast(img_path_in, img_path_out, factor):
         print(f'Unexpected error: {e}')
 
 
-def create_data_sample_from_image(img_path_in, pixels_positions):
+def create_data_sample_from_image(img_path_in: str, pixels_positions: tuple) -> NDArray:
+    """Creates data sample in the form of np.array by selecting (R,G,B) from pixels determined by pixels_positions
+    from image img_path_in."""
     img = imread(img_path_in)
     img_sample = img[pixels_positions[0][0], pixels_positions[0][1]]
     for i in range(1, len(pixels_positions)):
@@ -74,12 +84,17 @@ def create_data_sample_from_image(img_path_in, pixels_positions):
     return img_sample
 
 
-def create_data_sample_as_single(img_path_in, pixels_positions):
+def create_data_sample_as_single(img_path_in: str, pixels_positions: tuple) -> NDArray:
+    """Creates data sample in the form of np.array by selecting (R,G,B) from pixels determined by pixels_positions
+    from image img_path_in.
+    Then it reshapes it so that it can be input to predict() of machine learning model."""
     img_sample = create_data_sample_from_image(img_path_in, pixels_positions)
     return img_sample.reshape(1, -1)
 
 
-def get_pixels_positions(width, height) -> tuple[tuple, list, list]:
+def get_pixels_positions(width: int, height: int) -> tuple:
+    """Returns positions of pixels that are selected to be used for creating a dataset.
+    It also returns width_limits and height_limits that are typical lines where rectangles on flags have their borders."""
     width_limits = width * np.array([1 / 3, 1 / 2, 2 / 3])
     height_limits = height * np.array([1 / 3, 1 / 2, 2 / 3])
     widths = [math.floor((0 + width_limits[0]) / 2),
@@ -105,11 +120,13 @@ def get_pixels_positions(width, height) -> tuple[tuple, list, list]:
     return pixels_positions, width_limits, height_limits
 
 
-def is_svg_file(file_path):
+def is_svg_file(file_path: str) -> bool:
+    """Checks if a file is SVG."""
     return file_path.lower().endswith('.svg')
 
 
-def is_rgba(file_path):
+def is_rgba(file_path: str) -> bool:
+    """Checks if a file is RGBA image."""
     try:
         img = imread(file_path)
         return img.shape[2] > 3
