@@ -32,6 +32,7 @@ class DatasetCreator:
         soup = BeautifulSoup(self._page_content, 'html.parser')
         elements = soup.find_all(class_='mw-file-description')
 
+        self._countries_numbers = []
         counter = 0
         with open(os.path.join(self._path_data, 'countries.txt'), 'w') as txt_file_handler:
             print('Downloading data...')
@@ -77,7 +78,6 @@ class DatasetCreator:
             return
 
         img_data = response.content
-        self._countries_numbers = []
         with open(os.path.join(self._path_data, f'{counter}.svg'), 'wb') as img_file_handler:
             img_file_handler.write(img_data)
             self._countries_numbers.append(counter)
