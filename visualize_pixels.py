@@ -19,4 +19,5 @@ if __name__ == '__main__':
     for x_lim in width_limits:
         plt.axvline(x_lim)
     plt.savefig('img/pixels.pdf', bbox_inches='tight')
+    plt.savefig('img/pixels.png')
     plt.show()

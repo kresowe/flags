@@ -2,6 +2,7 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup, element
 import os
+from typing import Union
 from image_preprocessor import (convert_to_rgb, resize, convert_to_png, get_pixels_positions,
                                 create_data_sample_from_image, change_brightness, change_contrast)
 
@@ -119,7 +120,8 @@ class DatasetCreator:
             counter = self._create_by_modified_contrast(img_path_in, country_number, counter)
         self._files_per_country = counter
 
-    def _create_by_modified_brightness(self, img_path_in: str, country_number: int, counter: int) -> int:
+    def _create_by_modified_brightness(self, img_path_in: Union[str, os.PathLike],
+                                       country_number: int, counter: int) -> int:
         """Creates new samples by modifying brightness of each downloaded and preprocessed image.
         For each image there are plenty of new samples because the brightness is modified by different factors.
         New samples for country identified by country_number are saved as <country_number>_<counter>.png in
@@ -133,7 +135,8 @@ class DatasetCreator:
             counter += 1
         return counter
 
-    def _create_by_modified_contrast(self, img_path_in: str, country_number: int, counter: int) -> int:
+    def _create_by_modified_contrast(self, img_path_in: Union[str, os.PathLike],
+                                     country_number: int, counter: int) -> int:
         """Creates new samples by modifying contrast of each downloaded and preprocessed image.
         For each image there are plenty of new samples because the contrast is modified by different factors.
         New samples for country identified by country_number are saved as <country_number>_<counter>.png in

@@ -4,9 +4,11 @@ import cairosvg
 from PIL import Image, ImageEnhance
 from matplotlib.image import imread
 import math
+import os
+from typing import Union
 
 
-def convert_to_png(img_path_in: str, img_path_out: str) -> None:
+def convert_to_png(img_path_in: Union[str, os.PathLike], img_path_out: Union[str, os.PathLike]) -> None:
     """Converts image at img_path_in from SVG to PNG and saves it at img_path_out if it is SVG.
      If it is already converted to PNG it just saves it as img_path_out."""
     try:
@@ -21,7 +23,7 @@ def convert_to_png(img_path_in: str, img_path_out: str) -> None:
         print(f'Unexpected error: {e}')
 
 
-def resize(img_path_in: str, img_path_out: str, width: int, height: int) -> None:
+def resize(img_path_in: Union[str, os.PathLike], img_path_out: Union[str, os.PathLike], width: int, height: int) -> None:
     """Resizes image img_path_in to (width, height) dimensions (numbers of pixels) and saves it as img_path_out."""
     try:
         with Image.open(img_path_in) as img:
@@ -33,7 +35,7 @@ def resize(img_path_in: str, img_path_out: str, width: int, height: int) -> None
         print(f'Unexpected error: {e}')
 
 
-def convert_to_rgb(img_path_in: str, img_path_out: str) -> None:
+def convert_to_rgb(img_path_in: Union[str, os.PathLike], img_path_out: Union[str, os.PathLike]) -> None:
     """Converts image img_path_in to RGB if it is RGBA and saves it as img_path_out.
     If image already is RGB, it does nothing."""
     try:
@@ -48,7 +50,7 @@ def convert_to_rgb(img_path_in: str, img_path_out: str) -> None:
         print(f'Unexpected error: {e}')
 
 
-def change_brightness(img_path_in: str, img_path_out: str, factor: float) -> None:
+def change_brightness(img_path_in: Union[str, os.PathLike], img_path_out: Union[str, os.PathLike], factor: float) -> None:
     """Changes brightness of image img_path_in by factor and saves it as img_path_out."""
     try:
         with Image.open(img_path_in) as img:
@@ -61,7 +63,7 @@ def change_brightness(img_path_in: str, img_path_out: str, factor: float) -> Non
         print(f'Unexpected error: {e}')
 
 
-def change_contrast(img_path_in: str, img_path_out: str, factor: float) -> None:
+def change_contrast(img_path_in: Union[str, os.PathLike], img_path_out: Union[str, os.PathLike], factor: float) -> None:
     """Changes contrast of image img_path_in by factor and saves it as img_path_out."""
     try:
         with Image.open(img_path_in) as img:
@@ -74,7 +76,7 @@ def change_contrast(img_path_in: str, img_path_out: str, factor: float) -> None:
         print(f'Unexpected error: {e}')
 
 
-def create_data_sample_from_image(img_path_in: str, pixels_positions: tuple) -> NDArray:
+def create_data_sample_from_image(img_path_in: Union[str, os.PathLike], pixels_positions: tuple) -> NDArray:
     """Creates data sample in the form of np.array by selecting (R,G,B) from pixels determined by pixels_positions
     from image img_path_in."""
     img = imread(img_path_in)
@@ -84,7 +86,7 @@ def create_data_sample_from_image(img_path_in: str, pixels_positions: tuple) -> 
     return img_sample
 
 
-def create_data_sample_as_single(img_path_in: str, pixels_positions: tuple) -> NDArray:
+def create_data_sample_as_single(img_path_in: Union[str, os.PathLike], pixels_positions: tuple) -> NDArray:
     """Creates data sample in the form of np.array by selecting (R,G,B) from pixels determined by pixels_positions
     from image img_path_in.
     Then it reshapes it so that it can be input to predict() of machine learning model."""
@@ -120,12 +122,12 @@ def get_pixels_positions(width: int, height: int) -> tuple:
     return pixels_positions, width_limits, height_limits
 
 
-def is_svg_file(file_path: str) -> bool:
+def is_svg_file(file_path: Union[str, os.PathLike]) -> bool:
     """Checks if a file is SVG."""
     return file_path.lower().endswith('.svg')
 
 
-def is_rgba(file_path: str) -> bool:
+def is_rgba(file_path: Union[str, os.PathLike]) -> bool:
     """Checks if a file is RGBA image."""
     try:
         img = imread(file_path)
