@@ -10,3 +10,4 @@ CairoSVG==2.7.1
 pillow==10.3.0
 matplotlib==3.9.0
 scikit-learn==1.4.2
+pytest==8.2.1

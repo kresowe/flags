@@ -57,4 +57,4 @@ if __name__ == '__main__':
         predicted = clf.predict(img_sample)[0]
         print(f"This is a flag of {countries_names[predicted]}.")
     except Exception as e:
-        print(f'Impossible to recognize flag because of error.')
+        print('Impossible to recognize flag because of error.')
