@@ -1,6 +1,6 @@
 import numpy as np
 import cairosvg
-from PIL import Image
+from PIL import Image, ImageEnhance
 from matplotlib.image import imread
 import math
 
@@ -36,6 +36,30 @@ def convert_to_rgb(img_path_in, img_path_out):
         with Image.open(img_path_in) as img_pil:
             img_out = img_pil.convert('RGB')
             img_out.save(img_path_out)
+    except FileNotFoundError:
+        print(f'Missing file {img_path_in}')
+    except Exception as e:
+        print(f'Unexpected error: {e}')
+
+
+def change_brightness(img_path_in, img_path_out, factor):
+    try:
+        with Image.open(img_path_in) as img:
+            enhancer = ImageEnhance.Brightness(img)
+            enhanced_img = enhancer.enhance(factor)
+            enhanced_img.save(img_path_out)
+    except FileNotFoundError:
+        print(f'Missing file {img_path_in}')
+    except Exception as e:
+        print(f'Unexpected error: {e}')
+
+
+def change_contrast(img_path_in, img_path_out, factor):
+    try:
+        with Image.open(img_path_in) as img:
+            enhancer = ImageEnhance.Contrast(img)
+            enhanced_img = enhancer.enhance(factor)
+            enhanced_img.save(img_path_out)
     except FileNotFoundError:
         print(f'Missing file {img_path_in}')
     except Exception as e:
