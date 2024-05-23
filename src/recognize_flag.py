@@ -47,18 +47,15 @@ if __name__ == '__main__':
     print("Preparing environment...")
     try:
         clf = pickle.load(open(file_path_clf, 'rb'))
-    except Exception as e:
-        print(f"Error {e}")
-    pixels_positions, _, _ = get_pixels_positions(width=WIDTH, height=HEIGHT)
-    countries_names = load_countries_names(file_path_countries_list)
-    remove_file_if_exists(file_path_new_sample)
+        pixels_positions, _, _ = get_pixels_positions(width=WIDTH, height=HEIGHT)
+        countries_names = load_countries_names(file_path_countries_list)
+        remove_file_if_exists(file_path_new_sample)
 
-    file_path_in = input('Provide path to picture of a flag: ')
-    try:
+        file_path_in = input('Provide path to picture of a flag: ')
         print("Converting your picture...")
         preprocess_image(file_path_in, file_path_new_sample, WIDTH, HEIGHT)
         img_sample = create_data_sample_as_single(file_path_new_sample, pixels_positions)
         predicted = clf.predict(img_sample)[0]
         print(f"This is a flag of {countries_names[predicted]}.")
     except Exception as e:
-        print('Impossible to recognize flag because of error.')
+        print(f'Impossible to recognize flag because of error. Error: {e}')
