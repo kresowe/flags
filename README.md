@@ -5,7 +5,7 @@
 The goal of this project is to create a machine learning model that can recognize the flags of the countries.
 
 ## How to run
-Inference pipeline where you can identify the country by its flag is run by:
+Inference pipeline where you can identify the country by its flag is run by the terminal command:
 
 ```commandline
 python3 recognize_flag.py 
@@ -15,7 +15,7 @@ This does not require the steps listed below because it uses already trained and
 
 The steps below illustrate how to create dataset and train model from scratch. 
 
-In order to create dataset run the following command in terminal:
+In order to create dataset run:
 
 ```commandline
 python3 get_dataset.py 
@@ -47,7 +47,7 @@ trains the best model and estimates its performance and then trains the model on
 
 Images of the flags of countries and the names of the countries are downloaded from https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags using `requests` and `BeautifulSoup4` libraries. 
 
-The images are saved in the directory `data`. The names of the countries are saved in the same order to the file `countries.txt` in the same directory.
+The names of the countries are saved in the same order to the text file.
 
 #### Preprocessing data
 
@@ -75,9 +75,9 @@ The logistic regression was chosen as a machine learning model.
 
 The accuracy was used as a metric. Namely, it is defined as the fraction of correct predictions in the randomly selected test / validation set. 
 
-The nested cross validation was used because of the relatively small amount of data w.r.t. number of classes. The model performance with different values of the regularization hyperparameter was assessed.
+The nested cross-validation was used because of the relatively small amount of data w.r.t. number of classes. The model performance with different values of the regularization hyperparameter was assessed.
 
-The model with the best performance was chosen. For this model a cross validation was used to make a final estimation of its accuracy.
+The model with the best performance was chosen. For this model a cross-validation was used to make a final estimation of its accuracy.
 
 The best model was trained on the whole available dataset and then serialized for future use.
 
@@ -97,13 +97,13 @@ The positions of the selected pictures and of the borders of 2 or 3 horizontal /
 
 This simple method of selecting just 8 pixels and using logistic regression was surprisingly successful.
 
-As seen from `ml_training_cross_val_manual.py`, very good accuracy (about 97-99%) is obtained for regularization hyperparameter C in range from 1 to 1000. Three out of four folds suggest that C = 100 gives the best accuracy. I note that C = 1 obtains similar accuracy with shorter training time however given the relatively small size of dataset these times are quite short even on my old notebook.
+As seen from `ml_training_cross_val_manual.py`, very good accuracy (about 97-99%) is obtained for regularization hyperparameter C in range from 1 to 1000. Three out of four folds suggest that C = 100 gives the best accuracy. I note that for C = 1, the accuracy is similar with shorter training time however given the relatively small size of dataset these times are quite short even on my old notebook.
 
 According to `ml_training_best_model.py`, the accuracy of the chosen model (logistic regression with C=100) is 99.3 +/- 0.1 %.
 
 ## Comments
 
-I note that any machine learning classifier is likely not the best approach to this specific problem. The package `flagpy` [^1] identifies a flag by comparing it with a template flag for each country and chooses the one that is most similar to the given image. The similarity is calculated by the *distance function* defined, e.g., by mean square difference.   
+I note that this specific problem can be solved without machine learning. The package `flagpy` [^1] identifies a flag by comparing it with a template flag for each country and chooses the one that is most similar to the given image. The similarity is calculated by the *distance function* defined, e.g., by mean square difference.   
 
 
 [^1]: https://pypi.org/project/flagpy/ and https://github.com/saahilkumar/world-flag-identifier/
