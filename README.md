@@ -5,11 +5,14 @@
 The goal of this project is to create a machine learning model that can recognize the flags of the countries.
 
 ## How to run
+
 Inference pipeline where you can identify the country by its flag is run by the terminal command:
 
 ```commandline
-python3 recognize_flag.py 
+python3 src/recognize_flag.py 
 ```
+
+When asked to provide path to picture you can use for example `tests/data_for_tests/116.png` or you can add your own picture to `data` and refer to it by `src/data/<your_file>`.
 
 This does not require the steps listed below because it uses already trained and saved model.
 
@@ -18,6 +21,7 @@ The steps below illustrate how to create dataset and train model from scratch.
 In order to create dataset run:
 
 ```commandline
+cd src
 python3 get_dataset.py 
 ```
 
@@ -38,6 +42,17 @@ python3 ml_training_best_model.py
 ```
 
 trains the best model and estimates its performance and then trains the model on the whole available dataset.
+
+### Docker
+
+I created a Docker image from the inference pipeline. You can download it and use in the following way:
+```commandline
+docker pull kresowe/flags-mb:0.1
+docker run -t -i kresowe/flags-mb:0.1
+```
+
+When asked to provide path to picture you can use for example `/flags-app/app/data/116.png`.
+
 
 ## Steps of the solution
 

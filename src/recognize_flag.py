@@ -39,9 +39,10 @@ def preprocess_image(file_path_in: Union[str, os.PathLike], file_path_out: Union
 if __name__ == '__main__':
     WIDTH = 32
     HEIGHT = 20
-    file_path_new_sample = os.path.join('data_new', 'new_sample.png')
-    file_path_clf = os.path.join('models', 'clf.pkl')
-    file_path_countries_list = os.path.join('data', 'countries.txt')
+    DIRNAME = os.path.dirname(__file__)
+    file_path_new_sample = os.path.join(DIRNAME, 'data_new', 'new_sample.png')
+    file_path_clf = os.path.join(DIRNAME, 'models', 'clf.pkl')
+    file_path_countries_list = os.path.join(DIRNAME, 'data', 'countries.txt')
 
     print("Preparing environment...")
     try:
