@@ -20,5 +20,5 @@ if __name__ == '__main__':
     for x_lim in width_limits:
         plt.axvline(x_lim)
     plt.savefig('img/pixels.pdf', bbox_inches='tight')
-    plt.savefig('img/pixels.png', dpi=100)
+    plt.savefig('img/pixels.png', bbox_inches='tight', dpi=80)
     plt.show()
