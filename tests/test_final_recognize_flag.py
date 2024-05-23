@@ -1,8 +1,8 @@
 import pytest
 import pickle
 import os
-from image_preprocessor import get_pixels_positions, create_data_sample_as_single
-from recognize_flag import preprocess_image, remove_file_if_exists, load_countries_names
+from src.image_preprocessor import get_pixels_positions, create_data_sample_as_single
+from src.recognize_flag import preprocess_image, remove_file_if_exists, load_countries_names
 
 
 @pytest.fixture()

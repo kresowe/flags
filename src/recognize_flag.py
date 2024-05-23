@@ -44,7 +44,10 @@ if __name__ == '__main__':
     file_path_countries_list = os.path.join('data', 'countries.txt')
 
     print("Preparing environment...")
-    clf = pickle.load(open(file_path_clf, 'rb'))
+    try:
+        clf = pickle.load(open(file_path_clf, 'rb'))
+    except Exception as e:
+        print(f"Error {e}")
     pixels_positions, _, _ = get_pixels_positions(width=WIDTH, height=HEIGHT)
     countries_names = load_countries_names(file_path_countries_list)
     remove_file_if_exists(file_path_new_sample)

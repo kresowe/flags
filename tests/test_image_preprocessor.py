@@ -1,9 +1,9 @@
 from matplotlib.image import imread
 import pytest
 import os
-from image_preprocessor import (resize, convert_to_rgb, create_data_sample_from_image, create_data_sample_as_single,
+from src.image_preprocessor import (resize, convert_to_rgb, create_data_sample_from_image, create_data_sample_as_single,
                                 get_pixels_positions, is_svg_file, is_rgba)
-from recognize_flag import remove_file_if_exists
+from src.recognize_flag import remove_file_if_exists
 from tests.test_final_recognize_flag import pixels
 
 
