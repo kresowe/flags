@@ -12,6 +12,7 @@ if __name__ == '__main__':
     for pixel_position in pixels_positions:
         current_axis.add_patch(Rectangle((pixel_position[1], pixel_position[0]), 1, 1))
 
+
     plt.axis('scaled')
     plt.axis([0, X_MAX, 0, Y_MAX])
     for y_lim in height_limits:
@@ -19,5 +20,5 @@ if __name__ == '__main__':
     for x_lim in width_limits:
         plt.axvline(x_lim)
     plt.savefig('img/pixels.pdf', bbox_inches='tight')
-    plt.savefig('img/pixels.png')
+    plt.savefig('img/pixels.png', dpi=100)
     plt.show()
