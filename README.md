@@ -6,6 +6,20 @@ The goal of this project is to create a machine learning model that can recogniz
 
 ## How to run
 
+### Cloned from here
+
+#### Prerequisites
+
+`python >= 3.9`. I used and tested with Python 3.9.
+
+#### Download and install
+
+```commandline
+git clone https://github.com/kresowe/flags.git
+```
+
+#### Inference
+
 Inference pipeline where you can identify the country by its flag is run by the terminal command:
 
 ```commandline
@@ -16,7 +30,9 @@ When asked to provide path to picture you can use for example `tests/data_for_te
 
 This does not require the steps listed below because it uses already trained and saved model.
 
-The steps below illustrate how to create dataset and train model from scratch. 
+The steps below illustrate how to create dataset and train model from scratch.
+
+#### Creating dataset
 
 In order to create dataset run:
 
@@ -26,6 +42,8 @@ python3 get_dataset.py
 ```
 
 Note that this will download the pictures from  https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags and then generate new files. 
+
+#### Training 
 
 Running the command
 
@@ -86,9 +104,9 @@ The created dataset in the form of `numpy` arrays is saved as .npz.
 
 ### Model selection, validation and training
 
-The logistic regression was chosen as a machine learning model.
+The logistic regression was chosen as a machine learning model. The task is a multiclass classification. There are 206 classes (number of countries).
 
-The accuracy was used as a metric. Namely, it is defined as the fraction of correct predictions in the randomly selected test / validation set. 
+The accuracy was used as a metric. Namely, it is defined as the fraction of correct predictions in the randomly selected test / validation set. I note that, because of the new samples production mechanism, the classes are balanced, i.e., there are 41 samples per class.  
 
 The nested cross-validation was used because of the relatively small amount of data w.r.t. number of classes. The model performance with different values of the regularization hyperparameter was assessed.
 
@@ -106,7 +124,7 @@ I realized that many of the flags consist of 2 or 3 horizontal or vertical recta
 
 The positions of the selected pictures and of the borders of 2 or 3 horizontal / vertical rectangles are shown in figure.
 
-![alt text](https://github.com/kresowe/flags/blob/master/img/pixels.png?raw=true)
+![alt text](https://github.com/kresowe/flags/blob/master/src/img/pixels.png?raw=true)
 
 ## Results
 
