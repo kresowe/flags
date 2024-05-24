@@ -1,39 +1,7 @@
 import os
 import pickle
-from typing import Union
-from image_preprocessor import (resize, convert_to_png, convert_to_rgb, get_pixels_positions,
-                                create_data_sample_as_single)
-
-
-def load_countries_names(file_path: Union[str, os.PathLike]) -> list:
-    """Load countries names from file file_path into list that is returning, keeping the order.
-    It is assumed that each line contains one country name."""
-    try:
-        with open(file_path, 'r') as file:
-            lines = file.readlines()
-        return [line.strip() for line in lines]
-    except FileNotFoundError:
-        print(f"Missing file {file_path}")
-    except Exception as e:
-        print(f"Unexpected error: {e}.")
-
-
-def remove_file_if_exists(file_path: Union[str, os.PathLike]) -> None:
-    """Removes file file_path if it existed."""
-    try:
-        if os.path.exists(file_path):
-            os.remove(file_path)
-    except Exception as e:
-        print(f'Error: {e}')
-
-
-def preprocess_image(file_path_in: Union[str, os.PathLike], file_path_out: Union[str, os.PathLike],
-                     width: int, height: int) -> None:
-    """Preprocess image file_path_in provided by user and saves it to file_path_out.
-    Namely, it converts it to PNG file, then resizes to (width, height) dimensions (in pixels) and converts to RGB."""
-    convert_to_png(file_path_in, file_path_out)
-    resize(file_path_out, file_path_out, width, height)
-    convert_to_rgb(file_path_out, file_path_out)
+from flags.image_preprocessor import preprocess_image, get_pixels_positions, create_data_sample_as_single
+from flags.utils import load_countries_names, remove_file_if_exists
 
 
 if __name__ == '__main__':

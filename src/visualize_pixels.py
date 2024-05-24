@@ -1,6 +1,6 @@
 from matplotlib.patches import Rectangle
 import matplotlib.pyplot as plt
-from image_preprocessor import get_pixels_positions
+from flags.image_preprocessor import get_pixels_positions
 
 if __name__ == '__main__':
     X_MAX = 32
@@ -11,7 +11,6 @@ if __name__ == '__main__':
     current_axis = plt.gca()
     for pixel_position in pixels_positions:
         current_axis.add_patch(Rectangle((pixel_position[1], pixel_position[0]), 1, 1))
-
 
     plt.axis('scaled')
     plt.axis([0, X_MAX, 0, Y_MAX])

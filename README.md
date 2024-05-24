@@ -130,9 +130,11 @@ The positions of the selected pictures and of the borders of 2 or 3 horizontal /
 
 This simple method of selecting just 8 pixels and using logistic regression was surprisingly successful.
 
-As seen from `ml_training_cross_val_manual.py`, very good accuracy (about 97-99%) is obtained for regularization hyperparameter C in range from 1 to 1000. Three out of four folds suggest that C = 100 gives the best accuracy. I note that for C = 1, the accuracy is similar with shorter training time however given the relatively small size of dataset these times are quite short even on my old notebook.
+As seen from `ml_training_cross_val_manual.py`, very good accuracy (about 97-99%) is obtained for regularization hyperparameter C in range from 1 to 1000. All four folds suggest that C = 100 gives the best accuracy. I note that for C = 1, the accuracy is similar with shorter training time however given the relatively small size of dataset these times are quite short even on my old notebook.
 
-According to `ml_training_best_model.py`, the accuracy of the chosen model (logistic regression with C=100) is 99.3 +/- 0.1 %.
+According to `ml_training_best_model.py`, the accuracy of the chosen model (logistic regression with C=100) is 99.3 +/- 0.1 %. 
+
+The performance for each class was checked by calculating true positive rate separately for each class. For the randomly selected test set, the model had misclassifications only in case of Australia (identified also as New Zealand), Syria (identified also as Yemen), and Yemen (identified also as Syria). It is not surprising since the flags of Australia and New Zealand as well as of Syria and Yemen have the same colors of main regions and differ by some additional details.
 
 ## Comments
 

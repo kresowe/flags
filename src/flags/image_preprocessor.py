@@ -8,6 +8,15 @@ import os
 from typing import Union
 
 
+def preprocess_image(file_path_in: Union[str, os.PathLike], file_path_out: Union[str, os.PathLike],
+                     width: int, height: int) -> None:
+    """Preprocess image file_path_in provided by user and saves it to file_path_out.
+    Namely, it converts it to PNG file, then resizes to (width, height) dimensions (in pixels) and converts to RGB."""
+    convert_to_png(file_path_in, file_path_out)
+    resize(file_path_out, file_path_out, width, height)
+    convert_to_rgb(file_path_out, file_path_out)
+
+
 def convert_to_png(img_path_in: Union[str, os.PathLike], img_path_out: Union[str, os.PathLike]) -> None:
     """Converts image at img_path_in from SVG to PNG and saves it at img_path_out if it is SVG.
      If it is already converted to PNG it just saves it as img_path_out."""
@@ -136,3 +145,6 @@ def is_rgba(file_path: Union[str, os.PathLike]) -> bool:
         print(f'Missing file {file_path}')
     except Exception as e:
         print(f'Unexpected error: {e}')
+
+
+
