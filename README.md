@@ -6,13 +6,15 @@ The goal of this project is to create a machine learning model that can recogniz
 
 ## How to run
 
-### Cloned from here
+### Clone from here
 
 #### Prerequisites
 
 `python >= 3.9`. I used and tested with Python 3.9.
 
 #### Download and install
+
+Using command line you type:
 
 ```commandline
 git clone https://github.com/kresowe/flags.git
@@ -69,7 +71,7 @@ docker pull kresowe/flags-mb:0.1
 docker run -t -i kresowe/flags-mb:0.1
 ```
 
-When asked to provide path to picture you can use for example `/flags-app/app/data/116.png`.
+When asked to provide path to picture you can use the images that are already in the container, for example `/flags-app/app/data/116.png`.
 
 
 ## Steps of the solution
@@ -110,7 +112,7 @@ The accuracy was used as a metric. Namely, it is defined as the fraction of corr
 
 The nested cross-validation was used because of the relatively small amount of data w.r.t. number of classes. The model performance with different values of the regularization hyperparameter was assessed.
 
-The model with the best performance was chosen. For this model a cross-validation was used to make a final estimation of its accuracy.
+The model with the best performance was chosen. For this model a cross-validation was used to make a final estimation of its accuracy. Then, for this model the dataset was divided into training and test samples and trained. The true positive rate was calculated for each class separately to check which particular flags are misclassified. 
 
 The best model was trained on the whole available dataset and then serialized for future use.
 
@@ -134,7 +136,7 @@ As seen from `ml_training_cross_val_manual.py`, very good accuracy (about 97-99%
 
 According to `ml_training_best_model.py`, the accuracy of the chosen model (logistic regression with C=100) is 99.3 +/- 0.1 %. 
 
-The performance for each class was checked by calculating true positive rate separately for each class. For the randomly selected test set, the model had misclassifications only in case of Australia (identified also as New Zealand), Syria (identified also as Yemen), and Yemen (identified also as Syria). It is not surprising since the flags of Australia and New Zealand as well as of Syria and Yemen have the same colors of main regions and differ by some additional details.
+The performance for each class was checked (in `ml_training_best_model.py`) by calculating true positive rate separately for each class. For the randomly selected test set, the model had misclassifications only in case of Australia (identified also as New Zealand), Syria (identified also as Yemen), and Yemen (identified also as Syria). It is not surprising since the flags of Australia and New Zealand as well as of Syria and Yemen have the same colors of main regions and differ by some additional details.
 
 ## Comments
 
