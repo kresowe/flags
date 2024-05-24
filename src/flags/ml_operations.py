@@ -80,7 +80,6 @@ def print_cross_validation_results(params_list: list, params_scores: NDArray, fi
     print("Mean score:", params_scores)
     print("Fit times:", fit_times)
 
-    print('Best results on test sample:')
     print('Best parameters:')
     print(best_params_list)
 
