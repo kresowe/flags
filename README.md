@@ -48,7 +48,7 @@ In order to create dataset run:
 
 ```commandline
 cd src
-python3 get_dataset.py 
+python get_dataset.py 
 ```
 
 Note that this will download the pictures from  https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags and then generate new files. 
@@ -58,7 +58,7 @@ Note that this will download the pictures from  https://en.wikipedia.org/wiki/Ga
 Running the command
 
 ```commandline
-python3 ml_training_cross_val_manual.py 
+python ml_training_cross_val_manual.py 
 ```
 
 performs a nested cross-validation on the dataset to find the best value of hyperparameter and estimate the model performance.
@@ -66,7 +66,7 @@ performs a nested cross-validation on the dataset to find the best value of hype
 Then:
 
 ```commandline
-python3 ml_training_best_model.py
+python ml_training_best_model.py
 ```
 
 trains the best model and estimates its performance and then trains the model on the whole available dataset.
