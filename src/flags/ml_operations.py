@@ -111,7 +111,12 @@ def save_trained_model(clf: LogisticRegression, file_path: Union[str, os.PathLik
         print(f"Error: {e}")
 
 
-def model_performance_per_class(X: NDArray, y: NDArray, clf: LogisticRegression, test_part: float = 0.2):
+def model_performance_per_class(X: NDArray, y: NDArray, clf: LogisticRegression, test_part: float = 0.2) -> dict:
+    """Calculates model performance per each class.
+    To do this, the dataset is divided into training and test sample. The classifier clf is trained and then it predicts
+    the classes for test dataset.
+    The performance is assessed by true positive rate (TPR) for each class.
+    It is checked for which classes TPR = 100% and for which not."""
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_part, random_state=0)
 
     clf.fit(X_train, y_train)
