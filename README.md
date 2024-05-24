@@ -18,14 +18,22 @@ Using command line you type:
 
 ```commandline
 git clone https://github.com/kresowe/flags.git
+cd flags
+python3 -m venv venv  
+. venv/bin/activate
+pip install -r requirements.txt 
 ```
+
+`python3` ideally refers to Python 3.9.
+
+Commands 3 and 4 create and activate virtual environment.
 
 #### Inference
 
 Inference pipeline where you can identify the country by its flag is run by the terminal command:
 
 ```commandline
-python3 src/recognize_flag.py 
+python src/recognize_flag.py 
 ```
 
 When asked to provide path to picture you can use for example `tests/data_for_tests/116.png` or you can add your own picture to `data` and refer to it by `src/data/<your_file>`.
@@ -67,11 +75,11 @@ trains the best model and estimates its performance and then trains the model on
 
 I created a Docker image from the inference pipeline. You can download it and use in the following way:
 ```commandline
-docker pull kresowe/flags-mb:0.1
-docker run -t -i kresowe/flags-mb:0.1
+docker pull kresowe/flags-mb:0.2
+docker run -t -i kresowe/flags-mb:0.2
 ```
 
-When asked to provide path to picture you can use the images that are already in the container, for example `/flags-app/app/data/116.png`.
+When asked to provide path to picture you can use the images that are already in the container, for example `/flags-app/app/data/116_0.png`.
 
 
 ## Steps of the solution

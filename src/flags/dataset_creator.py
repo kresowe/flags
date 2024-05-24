@@ -3,8 +3,8 @@ import requests
 from bs4 import BeautifulSoup, element
 import os
 from typing import Union
-from src.flags.image_preprocessor import (convert_to_rgb, resize, convert_to_png, get_pixels_positions, preprocess_image,
-                                          create_data_sample_from_image, change_brightness, change_contrast)
+from .image_preprocessor import (get_pixels_positions, preprocess_image, create_data_sample_from_image,
+                                 change_brightness, change_contrast)
 
 
 class DatasetCreator:
